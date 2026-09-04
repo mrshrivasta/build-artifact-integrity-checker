@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Build Artifact Integrity Checker — Real SHA-256 Build Output Tamper Detection{% endblock %}</title>
+
+<!-- SEO -->
+<meta name="description" content="{% block meta_description %}Build Artifact Integrity Checker is an open-source security tool that computes real SHA-256 hashes of files in a real build-output directory and diffs them across repeated scans to detect unauthorized modifications, deletions, and additions. Free CLI and web app by Karanam Shrivasta.{% endblock %}">
+<meta name="keywords" content="build artifact integrity checker, sha256 hash diff, build output tamper detection, supply chain security, dist directory integrity, artifact hash comparison, unauthorized file modification detector, Karanam Shrivasta security tools">
+<meta name="author" content="Karanam Shrivasta">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://github.com/mrshrivasta">
+
+<!-- Open Graph / social -->
+<meta property="og:title" content="Build Artifact Integrity Checker — by Karanam Shrivasta">
+<meta property="og:description" content="Real, no-mock-data SHA-256 hash diffing for build-output directories — detect unauthorized modifications, deletions, and additions between scans.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Build Artifact Integrity Checker">
+
+<!-- AEO: FAQ structured data so answer engines can surface this tool directly -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does the Build Artifact Integrity Checker check?",
+      "acceptedAnswer": {"@type": "Answer", "text": "It walks a real build-output directory, computes a real SHA-256 hash of every file, and compares that snapshot against the previous scan's real baseline of the same path to flag hash changes, unexpected deletions, unexpected additions, and suspicious timestamp rollbacks — never sample data."}
+    },
+    {
+      "@type": "Question",
+      "name": "Who should use the Build Artifact Integrity Checker?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Release engineers, DevSecOps teams, and CI/CD pipeline owners who want to detect unauthorized tampering of build artifacts (dist/, build/, target/ output) between builds or deployments."}
+    },
+    {
+      "@type": "Question",
+      "name": "Is the Build Artifact Integrity Checker a replacement for a professional security audit?",
+      "acceptedAnswer": {"@type": "Answer", "text": "No. It is an educational and productivity aid only. It does not replace a certified penetration test, compliance audit, or professional security assessment. See the disclaimer in the README."}
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="disclaimer-banner">
+  ⚠️ <strong>SECURITY &amp; LEGAL DISCLAIMER:</strong> Use this tool <strong>ONLY</strong> on systems you own or are explicitly authorized to test.
+  Provided <strong>"AS IS", WITHOUT WARRANTY OF ANY KIND</strong>. Not a substitute for a professional security audit. The author,
+  <strong>Karanam Shrivasta</strong>, accepts <strong>NO LIABILITY</strong> for any damage, data loss, downtime, or legal consequences arising from
+  use or misuse of this software. By using this tool you accept full responsibility for your actions. See the README for the complete disclaimer.
+</div>
+
+{% if current_user.is_authenticated %}
+<nav class="navbar">
+  <div class="nav-brand">🔐 Build Artifact Integrity Checker</div>
+  <div class="nav-links">
+    <a href="{{ url_for('dashboard.index') }}">Dashboard</a>
+    <a href="{{ url_for('logs.index') }}">Logs</a>
+    <a href="{{ url_for('alerts.index') }}">Alerts</a>
+    <a href="{{ url_for('incidents.index') }}">Incidents</a>
+    <a href="{{ url_for('analytics.index') }}">Analytics</a>
+    <a href="{{ url_for('reports.index') }}">Reports</a>
+    <a href="{{ url_for('settings.index') }}">Settings</a>
+    <a href="{{ url_for('auth.logout') }}">Logout ({{ current_user.username }})</a>
+  </div>
+</nav>
+{% endif %}
+
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="watermark-footer">
+  <p>
+    Build Artifact Integrity Checker &copy; {{ 2026 }} — Developed by <strong>Karanam Shrivasta</strong>
+    &middot; <a href="{{ github_url }}" target="_blank" rel="noopener">GitHub</a>
+    &middot; <a href="{{ linkedin_url }}" target="_blank" rel="noopener">LinkedIn</a>
+  </p>
+  <p class="footer-disclaimer">For authorized security auditing and educational use only. No warranty. Use at your own risk.</p>
+</footer>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>
